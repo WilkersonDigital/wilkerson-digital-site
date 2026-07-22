@@ -1,115 +1,68 @@
-const menuButton = document.querySelector("[data-menu-toggle]");
-const menu = document.querySelector("[data-menu]");
+(() => {
+  const root = document.documentElement;
+  const menuButton = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.site-menu');
 
-if (menuButton && menu) {
-  const closeMenu = () => {
-    menu.classList.remove("is-open");
-    menuButton.setAttribute("aria-expanded", "false");
-    menuButton.querySelector("span:first-child").textContent = "Menu";
-    menuButton.querySelector("span:last-child").textContent = "+";
+  const setMenu = (open) => {
+    if (!menuButton || !menu) return;
+    menu.classList.toggle('is-open', open);
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.children[0].textContent = open ? 'Close' : 'Menu';
+    menuButton.children[1].textContent = open ? '×' : '+';
   };
 
-  menuButton.addEventListener("click", () => {
-    const open = menu.classList.toggle("is-open");
-    menuButton.setAttribute("aria-expanded", String(open));
-    menuButton.querySelector("span:first-child").textContent = open ? "Close" : "Menu";
-    menuButton.querySelector("span:last-child").textContent = open ? "×" : "+";
-  });
-  menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
-  window.addEventListener("resize", closeMenu);
-}
+  menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
 
-const themes = {
-  classic: { label: "Classic", image: "assets/screens/home-classic.webp" },
-  cream: { label: "Cream", image: "assets/screens/home-cream.webp" },
-  night: { label: "Night", image: "assets/screens/home-night.webp" }
-};
-const themeImage = document.querySelector("[data-theme-image]");
-const themeButtons = [...document.querySelectorAll("[data-theme]")];
+  const updateProgress = () => {
+    const height = root.scrollHeight - window.innerHeight;
+    root.style.setProperty('--scroll-progress', String(height > 0 ? window.scrollY / height : 0));
+  };
+  updateProgress();
+  window.addEventListener('scroll', updateProgress, { passive: true });
 
-themeButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const selected = themes[button.dataset.theme];
-    if (!selected || !themeImage) return;
-    themeButtons.forEach((item) => {
-      const active = item === button;
-      item.classList.toggle("is-active", active);
-      item.setAttribute("aria-pressed", String(active));
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.setAttribute('data-visible', 'true');
+      observer.unobserve(entry.target);
     });
-    themeImage.src = selected.image;
-    themeImage.alt = `Emergency 18 ${selected.label} home screen`;
-    themeImage.animate(
-      [{ opacity: 0.28, transform: "scale(1.012)" }, { opacity: 1, transform: "scale(1)" }],
-      { duration: 520, easing: "cubic-bezier(.2,.8,.2,1)" }
-    );
-  });
-});
+  }, { rootMargin: '0px 0px -10%', threshold: 0.12 });
+  document.querySelectorAll('[data-reveal]').forEach((item) => revealObserver.observe(item));
 
-const screens = {
-  home: {
-    number: "01",
-    label: "Home",
-    title: "The whole game, within reach.",
-    text: "Start a round, reconnect with friends, revisit your history, and see how your game is moving—without a crowded dashboard.",
-    image: "assets/screens/home-night.webp",
-    alt: "Emergency 18 dark-theme home screen"
-  },
-  score: {
-    number: "02",
-    label: "Live scoring",
-    title: "Scoring that keeps the group moving.",
-    text: "Fast score entry, shared live rounds, putting and fairway tracking, plus the details golfers actually want after the round.",
-    image: "assets/screens/live-scorecard.webp",
-    alt: "Emergency 18 live round scorecard"
-  },
-  range: {
-    number: "03",
-    label: "GPS range",
-    title: "A better decision before the next shot.",
-    text: "Tap or drag a target for live yardage, then match the distance against the carry numbers saved in your golf bag.",
-    image: "assets/screens/gps-range.webp",
-    alt: "Emergency 18 GPS range over a golf hole"
-  }
-};
+  const featureScreens = [...document.querySelectorAll('[data-feature-screen]')];
+  const featureSteps = [...document.querySelectorAll('[data-feature-step]')];
+  const number = document.querySelector('[data-feature-number]');
+  const eyebrow = document.querySelector('[data-feature-eyebrow]');
+  const activateFeature = (index) => {
+    featureScreens.forEach((screen, i) => {
+      screen.classList.toggle('is-active', i === index);
+      screen.alt = i === index ? ['Emergency 18 Classic home screen', 'Emergency 18 live scoring with two sample players', 'Emergency 18 GPS Range on a golf hole'][i] : '';
+    });
+    featureSteps.forEach((step, i) => step.classList.toggle('is-active', i === index));
+    if (number) number.textContent = featureSteps[index]?.dataset.number || '';
+    if (eyebrow) eyebrow.textContent = featureSteps[index]?.dataset.eyebrow || '';
+  };
+  const featureObserver = new IntersectionObserver((entries) => {
+    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible) activateFeature(Number(visible.target.dataset.featureStep));
+  }, { rootMargin: '-28% 0px -46%', threshold: [0.05, 0.25, 0.55] });
+  featureSteps.forEach((step) => featureObserver.observe(step));
 
-const screenTabs = [...document.querySelectorAll("[data-screen]")];
-const screenImage = document.querySelector("[data-screen-image]");
-const screenMeta = document.querySelector("[data-screen-meta]");
-const screenTitle = document.querySelector("[data-screen-title]");
-const screenText = document.querySelector("[data-screen-text]");
-const screenCount = document.querySelector("[data-screen-count]");
-
-screenTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    const selected = screens[tab.dataset.screen];
-    if (!selected || !screenImage || !screenMeta || !screenTitle || !screenText || !screenCount) return;
-    screenTabs.forEach((item) => {
+  const themeTabs = [...document.querySelectorAll('[data-theme-tab]')];
+  const themeStage = document.querySelector('.theme-stage');
+  const themeScreen = document.querySelector('[data-theme-screen]');
+  const themeWord = document.querySelector('.theme-word');
+  themeTabs.forEach((tab) => tab.addEventListener('click', () => {
+    themeTabs.forEach((item) => {
       const active = item === tab;
-      item.setAttribute("aria-selected", String(active));
-      item.querySelector("[data-symbol]").textContent = active ? "—" : "+";
+      item.setAttribute('aria-selected', String(active));
+      item.lastElementChild.textContent = active ? '—' : '+';
     });
-    screenMeta.textContent = `${selected.number} / ${selected.label}`;
-    screenTitle.textContent = selected.title;
-    screenText.textContent = selected.text;
-    screenCount.textContent = selected.number;
-    screenImage.src = selected.image;
-    screenImage.alt = selected.alt;
-    [screenImage, screenMeta, screenTitle, screenText].forEach((element) => {
-      element.animate(
-        [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "translateY(0)" }],
-        { duration: 440, easing: "cubic-bezier(.2,.8,.2,1)" }
-      );
-    });
-  });
-});
-
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (reducedMotion) {
-  document.querySelectorAll("[data-reveal]").forEach((element) => element.classList.add("is-visible"));
-} else {
-  const observer = new IntersectionObserver(
-    (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible")),
-    { threshold: 0.12 }
-  );
-  document.querySelectorAll("[data-reveal]").forEach((element) => observer.observe(element));
-}
+    themeStage.dataset.theme = tab.dataset.themeTab;
+    themeScreen.src = tab.dataset.src;
+    themeScreen.alt = `Emergency 18 ${tab.textContent.replace(/[—+]/g, '').trim()} home screen`;
+    themeWord.textContent = tab.textContent.replace(/[—+]/g, '').trim();
+    themeScreen.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)' });
+  }));
+})();
