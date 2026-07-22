@@ -55,7 +55,6 @@
   const rearLeft = document.querySelector('[data-rear-left]');
   const rearRight = document.querySelector('[data-rear-right]');
   const themeButtons = [...document.querySelectorAll('[data-theme-button]')];
-  const styleCards = [...document.querySelectorAll('[data-style-card]')];
 
   const animateSwap = (element, distance = 12) => {
     if (!element || reducedMotion) return;
@@ -77,17 +76,9 @@
     animateSwap(rearRight, 18);
 
     themeButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.themeButton === theme.id)));
-    styleCards.forEach((card) => {
-      const active = card.dataset.styleCard === theme.id;
-      card.classList.toggle('is-active', active);
-      card.setAttribute('aria-pressed', String(active));
-      const label = card.querySelector('.style-card-action span');
-      if (label) label.textContent = active ? 'Selected' : 'Bring forward';
-    });
   };
 
   themeButtons.forEach((button) => button.addEventListener('click', () => setTheme(button.dataset.themeButton)));
-  styleCards.forEach((card) => card.addEventListener('click', () => setTheme(card.dataset.styleCard)));
 
   const features = [
     {
@@ -135,4 +126,75 @@
   };
 
   featureButtons.forEach((button, index) => button.addEventListener('click', () => setFeature(index)));
+
+  const waitlistRpcBase = 'https://xahdxubruhwqacumnnuy.supabase.co/rest/v1/rpc';
+  const waitlistPublicKey = 'sb_publishable_MJP8KWnubjh4EKQgCqlrzw_XcPvinkq';
+  const waitlistForm = document.querySelector('[data-waitlist-form]');
+  const waitlistCount = document.querySelector('[data-waitlist-count]');
+  const waitlistCountLabel = document.querySelector('[data-waitlist-count-label]');
+  const waitlistMessage = document.querySelector('[data-waitlist-message]');
+
+  const waitlistHeaders = {
+    apikey: waitlistPublicKey,
+    Authorization: `Bearer ${waitlistPublicKey}`,
+    'Content-Type': 'application/json',
+  };
+
+  const setWaitlistCount = (value) => {
+    const count = Number(value);
+    if (!Number.isFinite(count) || !waitlistCount || !waitlistCountLabel) return;
+    waitlistCount.textContent = String(count);
+    waitlistCountLabel.textContent = count === 1 ? 'golfer is waiting' : 'golfers are waiting';
+  };
+
+  const setWaitlistMessage = (state, message) => {
+    if (!waitlistMessage) return;
+    waitlistMessage.className = `waitlist-message ${state}`;
+    waitlistMessage.textContent = message;
+  };
+
+  fetch(`${waitlistRpcBase}/waitlist_public_count`, {
+    method: 'POST',
+    headers: waitlistHeaders,
+    body: '{}',
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error('Count unavailable');
+      return response.json();
+    })
+    .then((value) => setWaitlistCount(Array.isArray(value) ? value[0] : value))
+    .catch(() => undefined);
+
+  waitlistForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    if (String(data.get('company') || '').trim()) return;
+    const email = String(data.get('email') || '').trim();
+    if (!email) return;
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.firstChild.textContent = 'Joining… ';
+
+    try {
+      const response = await fetch(`${waitlistRpcBase}/join_launch_waitlist`, {
+        method: 'POST',
+        headers: waitlistHeaders,
+        body: JSON.stringify({ p_email: email }),
+      });
+      if (!response.ok) throw new Error('Join unavailable');
+      const payload = await response.json();
+      const result = Array.isArray(payload) ? payload[0] : payload;
+      setWaitlistCount(result?.total_count);
+      setWaitlistMessage(result?.joined ? 'joined' : 'duplicate', result?.joined
+        ? 'You’re in. We’ll email you when launch gets close.'
+        : 'You’re already on the list—we’ve got you.');
+      form.reset();
+    } catch {
+      setWaitlistMessage('error', 'The list is temporarily unavailable. Email business@wilkersondigital.net.');
+    } finally {
+      button.disabled = false;
+      button.firstChild.textContent = 'Join the waitlist ';
+    }
+  });
 })();
