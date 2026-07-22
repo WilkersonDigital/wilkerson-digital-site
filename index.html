@@ -4,10 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Wilkerson Digital builds focused software with personality. Meet Emergency 18, a modern golf companion now in beta.">
-  <meta name="theme-color" content="#f4f4f4">
+  <meta name="theme-color" content="#f1f1ee">
   <title>Wilkerson Digital — Independent Software Studio</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/screens/home-classic.webp" as="image">
   <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("motion-ready");</script>
   <script defer src="script.js"></script>
 </head>
 <body>
@@ -15,103 +17,95 @@
     <a class="skip-link" href="#content">Skip to content</a>
 
     <header class="site-header">
-      <a href="#top" class="brand-link" aria-label="Wilkerson Digital home">
-        <span class="wordmark"><span class="wordmark-box" aria-hidden="true">W</span><span>Wilkerson Digital</span></span>
-      </a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
-        <span>Menu</span><span aria-hidden="true">+</span>
-      </button>
+      <a href="#top" class="brand-link" aria-label="Wilkerson Digital home"><span class="wordmark"><span class="wordmark-mark" aria-hidden="true">WD</span><span>Wilkerson Digital</span></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle><span>Menu</span><span aria-hidden="true">+</span></button>
       <nav class="site-menu" id="site-menu" aria-label="Primary" data-menu>
-        <a href="#emergency-18">Emergency 18</a>
-        <a href="#studio">Studio</a>
-        <a href="support.html">Support</a>
+        <a href="#emergency-18">Emergency 18</a><a href="#studio">Studio</a><a href="support.html">Support</a>
       </nav>
     </header>
 
     <div id="content">
       <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-meta" aria-hidden="true">
-          <span>Independent software studio</span><span>Oklahoma · Est. 2026</span>
-        </div>
         <div class="hero-copy">
-          <p class="hero-kicker">Small by design.</p>
-          <h1 id="hero-title">One good app<br><span>at a time.</span></h1>
-          <p>Wilkerson Digital builds focused software for real people. Right now, that means making golf simpler—and more fun.</p>
+          <div class="hero-meta"><span>Independent software studio</span><span>Oklahoma / 2026</span></div>
+          <div class="hero-title-wrap" data-reveal><p class="eyebrow">Small by design</p><h1 id="hero-title">One good app.<br><span>Built properly.</span></h1></div>
+          <div class="hero-bottom" data-reveal>
+            <p>Wilkerson Digital makes focused software with a clear point of view. Right now, we are making golf simpler—and more fun.</p>
+            <a class="line-link" href="#emergency-18">Meet Emergency 18 <span class="arrow arrow-down" aria-hidden="true">→</span></a>
+          </div>
         </div>
-        <a class="hero-product" href="#emergency-18" aria-label="Meet Emergency 18">
-          <span class="product-status">Now testing · Build 15</span>
-          <span class="hero-e18" aria-hidden="true"><b>E</b><b>1</b><b>8</b><i></i></span>
-          <span class="product-link">Meet Emergency 18 <span aria-hidden="true">↓</span></span>
-        </a>
+
+        <div class="hero-device" aria-label="Emergency 18 home screen themes">
+          <div class="device-meta"><span>Emergency 18</span><span>Build 15 / External beta</span></div>
+          <div class="hero-phone-wrap">
+            <div class="phone phone-hero"><div class="phone-island" aria-hidden="true"></div><img src="assets/screens/home-classic.webp" alt="Emergency 18 Classic home screen" width="942" height="2048" data-theme-image></div>
+          </div>
+          <div class="theme-switch" role="group" aria-label="Choose app theme preview">
+            <span>Colorway</span>
+            <div>
+              <button type="button" class="is-active" aria-pressed="true" data-theme="classic">Classic</button>
+              <button type="button" aria-pressed="false" data-theme="cream">Cream</button>
+              <button type="button" aria-pressed="false" data-theme="night">Night</button>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section class="statement" aria-label="Company approach">
-        <p>Useful first.</p><p>Personality included.</p>
-      </section>
+      <section class="manifesto" aria-label="Company approach"><p>Useful first.</p><p>Personality included.</p><p>Nothing extra.</p></section>
 
       <section class="product" id="emergency-18" aria-labelledby="product-title">
-        <div class="product-heading">
-          <p class="section-index">01 / Current product</p>
-          <div><span class="product-name-small">Emergency</span><h2 id="product-title">18</h2></div>
-          <p class="product-intro">A modern golf companion for scoring, playing with friends, finding a course, and learning from every round.</p>
+        <div class="product-intro" data-reveal>
+          <p class="eyebrow light">01 / Current product</p>
+          <div><p class="product-name">Emergency 18</p><h2 id="product-title">The round,<br><span>all in one place.</span></h2></div>
+          <p class="product-lede">A modern golf companion for scoring, playing with friends, finding a course, and learning from every round.</p>
         </div>
 
-        <div class="product-explorer">
-          <div class="note-tabs" role="tablist" aria-label="Emergency 18 features">
-            <button type="button" role="tab" aria-selected="true" aria-controls="product-note" data-note="track"><span>01</span><strong>Track</strong><span data-symbol>—</span></button>
-            <button type="button" role="tab" aria-selected="false" aria-controls="product-note" data-note="play"><span>02</span><strong>Play</strong><span data-symbol>+</span></button>
-            <button type="button" role="tab" aria-selected="false" aria-controls="product-note" data-note="find"><span>03</span><strong>Find</strong><span data-symbol>+</span></button>
-            <button type="button" role="tab" aria-selected="false" aria-controls="product-note" data-note="improve"><span>04</span><strong>Improve</strong><span data-symbol>+</span></button>
-          </div>
-          <article class="note-panel" id="product-note" role="tabpanel" aria-live="polite">
-            <p>01 / Track</p>
-            <h3>A scorecard that stays out of the way.</h3>
-            <div class="note-bottom">
-              <p>Fast score entry, side quests, and complete round history—built to keep the group moving instead of staring at a screen.</p>
-              <span class="note-number" aria-hidden="true">01</span>
+        <div class="product-stage" data-reveal>
+          <div class="screen-copy">
+            <div class="screen-tabs" role="tablist" aria-label="Emergency 18 screens">
+              <button type="button" role="tab" aria-selected="true" aria-controls="screen-panel" data-screen="home"><span>01</span><strong>Home</strong><span data-symbol>—</span></button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="screen-panel" data-screen="score"><span>02</span><strong>Live scoring</strong><span data-symbol>+</span></button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="screen-panel" data-screen="range"><span>03</span><strong>GPS range</strong><span data-symbol>+</span></button>
             </div>
-          </article>
+            <article class="screen-panel" id="screen-panel" role="tabpanel" aria-live="polite">
+              <p data-screen-meta>01 / Home</p>
+              <h3 data-screen-title>The whole game, within reach.</h3>
+              <p data-screen-text>Start a round, reconnect with friends, revisit your history, and see how your game is moving—without a crowded dashboard.</p>
+            </article>
+          </div>
+          <div class="showcase-device">
+            <div class="phone phone-showcase"><div class="phone-island" aria-hidden="true"></div><img src="assets/screens/home-night.webp" alt="Emergency 18 dark-theme home screen" width="942" height="2048" data-screen-image></div>
+            <div class="screen-counter" aria-hidden="true"><span data-screen-count>01</span><span>/ 03</span></div>
+          </div>
         </div>
 
-        <div class="product-facts" aria-label="Emergency 18 availability">
-          <div><span>Status</span><strong>External beta</strong></div>
-          <div><span>Available on</span><strong>iPhone</strong></div>
-          <div><span>Made for</span><strong>Real rounds</strong></div>
+        <div class="product-facts" data-reveal>
+          <div><span>Play</span><strong>Solo, live, or scramble.</strong><p>Keep score your way, then keep the round.</p></div>
+          <div><span>Find</span><strong>Course search and GPS.</strong><p>Turn a change of plans into the next tee box.</p></div>
+          <div><span>Improve</span><strong>Stats tied to real equipment.</strong><p>Build your bag and make the numbers useful.</p></div>
         </div>
       </section>
 
       <section class="beta" id="beta" aria-labelledby="beta-title">
-        <p class="section-index">02 / Join the test</p>
-        <div class="beta-copy">
+        <p class="eyebrow">02 / Join the test</p>
+        <div class="beta-grid" data-reveal>
           <h2 id="beta-title">The first round<br>is underway.</h2>
-          <div>
-            <p>Emergency 18 is being shaped in public beta. If you golf and do not mind finding an occasional rough edge, we would like you in the group.</p>
-            <a class="text-link" href="mailto:support@wilkersondigital.net?subject=Emergency%2018%20Beta">Ask about the beta <span aria-hidden="true">→</span></a>
-          </div>
+          <div><p>Emergency 18 is being shaped in external beta with golfers who care about how the app feels on the course.</p><a class="line-link" href="mailto:support@wilkersondigital.net?subject=Emergency%2018%20Beta">Ask about the beta <span class="arrow" aria-hidden="true">→</span></a></div>
         </div>
       </section>
 
       <section class="studio" id="studio" aria-labelledby="studio-title">
-        <p class="section-index">03 / The studio</p>
-        <div class="studio-grid">
-          <h2 id="studio-title">No sprawling portfolio.<br>No filler.</h2>
-          <div>
-            <p>Wilkerson Digital is a small independent software company in Oklahoma. We are building Emergency 18 closely with the people who actually use it.</p>
-            <p>More products may come later. For now, the work is simple: make this one excellent.</p>
-          </div>
+        <p class="eyebrow light">03 / The studio</p>
+        <div class="studio-grid" data-reveal>
+          <h2 id="studio-title">No pretend portfolio.<br><span>No filler.</span></h2>
+          <div><p>Wilkerson Digital is a small independent software company in Oklahoma. We are building Emergency 18 closely with the people who actually use it.</p><p>More products may come later. For now, the work is simple: make this one excellent.</p></div>
         </div>
       </section>
     </div>
 
     <footer class="site-footer">
-      <div class="footer-top">
-        <span class="wordmark"><span class="wordmark-box" aria-hidden="true">W</span><span>Wilkerson Digital</span></span>
-        <a href="#top" class="back-top">Back to top ↑</a>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Wilkerson Digital LLC</span>
-        <nav aria-label="Legal"><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
-      </div>
+      <div class="footer-top"><span class="wordmark"><span class="wordmark-mark" aria-hidden="true">WD</span><span>Wilkerson Digital</span></span><a href="#top" class="back-top">Back to top ↑</a></div>
+      <div class="footer-bottom"><span>© 2026 Wilkerson Digital LLC</span><nav aria-label="Legal"><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div>
     </footer>
   </main>
 </body>
