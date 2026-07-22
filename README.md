@@ -1,27 +1,13 @@
-# Wilkerson Digital Website
+# Wilkerson Digital website
 
-Static GitHub Pages website for `wilkersondigital.net`.
+Static GitHub Pages site for `wilkersondigital.net`.
 
-## Uploading
+## Publish
 
-Upload everything in this folder to the root of the GitHub repository. The repository should contain:
+1. Open the repository currently serving `wilkersondigital.net`.
+2. Remove the old website files from the repository root.
+3. Upload the **contents** of this folder, not the folder itself.
+4. Commit the changes to the branch configured under **Settings → Pages**.
+5. Keep the included `CNAME` file. It preserves the custom domain.
 
-- `index.html`
-- `styles.css`
-- `script.js`
-- `privacy.html`
-- `terms.html`
-- `support.html`
-- `404.html`
-- `CNAME`
-- `assets/favicon.svg`
-
-## Important edits before launch
-
-1. Replace `YOUR-SUPPORT-EMAIL@wilkersondigital.net` in `support.html`.
-2. Add the real Emergency 18 logo and app screenshots.
-3. Replace the beta button with the real TestFlight or App Store link when ready.
-4. Have the privacy policy and terms reviewed before a public store release.
-5. Confirm the date and company name in the legal pages.
-
-Every commit to the GitHub Pages publishing branch will update the live site.
+The site has no build step or package dependencies. `index.html` is the homepage.
