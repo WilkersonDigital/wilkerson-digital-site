@@ -1,27 +1,50 @@
-# Wilkerson Digital Website
+const header = document.querySelector("[data-header]");
+const menuButton = document.querySelector("[data-menu-button]");
+const nav = document.querySelector("[data-nav]");
 
-Static GitHub Pages website for `wilkersondigital.net`.
+function setHeaderState() {
+  if (header) {
+    header.classList.toggle("scrolled", window.scrollY > 18);
+  }
+}
 
-## Uploading
+setHeaderState();
+window.addEventListener("scroll", setHeaderState, { passive: true });
 
-Upload everything in this folder to the root of the GitHub repository. The repository should contain:
+if (menuButton && nav) {
+  menuButton.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    menuButton.setAttribute("aria-expanded", String(open));
+  });
 
-- `index.html`
-- `styles.css`
-- `script.js`
-- `privacy.html`
-- `terms.html`
-- `support.html`
-- `404.html`
-- `CNAME`
-- `assets/favicon.svg`
+  nav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+    });
+  });
+}
 
-## Important edits before launch
+const revealItems = document.querySelectorAll(".reveal");
 
-1. Replace `YOUR-SUPPORT-EMAIL@wilkersondigital.net` in `support.html`.
-2. Add the real Emergency 18 logo and app screenshots.
-3. Replace the beta button with the real TestFlight or App Store link when ready.
-4. Have the privacy policy and terms reviewed before a public store release.
-5. Confirm the date and company name in the legal pages.
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    (entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          currentObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.14 }
+  );
 
-Every commit to the GitHub Pages publishing branch will update the live site.
+  revealItems.forEach((item) => observer.observe(item));
+} else {
+  revealItems.forEach((item) => item.classList.add("is-visible"));
+}
+
+document.querySelectorAll("[data-year]").forEach((item) => {
+  item.textContent = new Date().getFullYear();
+});
