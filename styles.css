@@ -406,23 +406,37 @@ a:hover .arrow.down { transform: rotate(90deg) translateX(4px); }
 }
 
 .held-screen,
-.held-frame { position: absolute; display: block; }
+.held-frame,
+.held-island { position: absolute; display: block; }
 
 .held-screen {
   z-index: 1;
-  top: 2.65%;
-  left: 20.9%;
-  width: 55.3%;
-  height: 52.8%;
+  top: 3.72%;
+  left: 24.25%;
+  width: 50.25%;
+  height: 50.9%;
   object-fit: cover;
   object-position: center top;
-  border-radius: 13% / 6%;
-  clip-path: inset(0 round 13% 13% 11% 11%);
+  border-radius: 7.8% / 3.8%;
+  clip-path: inset(0.15% 0.2% 0.75% 0.2% round 7.8% 7.8% 7.15% 7.15%);
   animation: screenSwap 420ms cubic-bezier(.2,.8,.2,1) both;
 }
 
-.held-frame {
+
+.held-island {
   z-index: 2;
+  top: 5.15%;
+  left: 50%;
+  width: 18.7%;
+  height: 1.55%;
+  border-radius: 999px;
+  background: #020202;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.18);
+}
+
+.held-frame {
+  z-index: 3;
   inset: 0;
   width: 100%;
   height: 100%;
