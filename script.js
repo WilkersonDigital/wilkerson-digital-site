@@ -80,53 +80,6 @@
 
   themeButtons.forEach((button) => button.addEventListener('click', () => setTheme(button.dataset.themeButton)));
 
-  const features = [
-    {
-      number: '01', eyebrow: 'Your round starts here', title: 'Choose the round. Keep everything else out of the way.',
-      copy: 'Solo, live, and scramble play begin from one focused home. Friends, recent form, and round history are close when you want them—not competing for every tap.',
-      stat: '3', statLabel: 'ways to play', src: 'assets/screens/home-classic.webp', alt: 'Emergency 18 home screen in the Classic style',
-    },
-    {
-      number: '02', eyebrow: 'Live scoring', title: 'The whole group stays on the same hole and the same page.',
-      copy: 'Scores, putts, fairways, greens, and side quests update without slowing down the round. The scorecard is built for quick taps between shots.',
-      stat: 'LIVE', statLabel: 'group scoring', src: 'assets/screens/live-scorecard.webp', alt: 'Emergency 18 live scoring screen with sample players Alex and Jordan',
-    },
-    {
-      number: '03', eyebrow: 'GPS Range', title: 'Move the target. Trust the number. Pull a club.',
-      copy: 'Tap a point on the hole, drag the pin to refine it, and get a carry recommendation from the clubs saved in your own Golf Bag.',
-      stat: '156', statLabel: 'yards to target', src: 'assets/screens/gps-range.webp', alt: 'Emergency 18 GPS Range measuring a target on a golf hole',
-    },
-  ];
-
-  const featureButtons = [...document.querySelectorAll('[data-feature-button]')];
-  const tourScreen = document.querySelector('[data-tour-screen]');
-  const tourCopyPanel = document.querySelector('.tour-copy');
-  const fields = {
-    number: document.querySelector('[data-tour-number]'),
-    eyebrow: document.querySelector('[data-tour-eyebrow]'),
-    title: document.querySelector('[data-tour-title]'),
-    copy: document.querySelector('[data-tour-copy]'),
-    stat: document.querySelector('[data-tour-stat]'),
-    statLabel: document.querySelector('[data-tour-stat-label]'),
-  };
-
-  const setFeature = (index) => {
-    const feature = features[index] || features[0];
-    featureButtons.forEach((button, buttonIndex) => button.setAttribute('aria-selected', String(buttonIndex === index)));
-    tourScreen.src = feature.src;
-    tourScreen.alt = feature.alt;
-    fields.number.textContent = feature.number;
-    fields.eyebrow.textContent = feature.eyebrow;
-    fields.title.textContent = feature.title;
-    fields.copy.textContent = feature.copy;
-    fields.stat.textContent = feature.stat;
-    fields.statLabel.textContent = feature.statLabel;
-    animateSwap(tourScreen, 22);
-    animateSwap(tourCopyPanel, 15);
-  };
-
-  featureButtons.forEach((button, index) => button.addEventListener('click', () => setFeature(index)));
-
   const waitlistRpcBase = 'https://xahdxubruhwqacumnnuy.supabase.co/rest/v1/rpc';
   const waitlistPublicKey = 'sb_publishable_MJP8KWnubjh4EKQgCqlrzw_XcPvinkq';
   const waitlistForm = document.querySelector('[data-waitlist-form]');
