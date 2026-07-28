@@ -53,10 +53,7 @@
             <div class="phone fan-phone fan-left" aria-hidden="true"><span class="phone-island"></span><img data-rear-left src="assets/screens/home-cream.webp" alt=""></div>
             <div class="phone fan-phone fan-right" aria-hidden="true"><span class="phone-island"></span><img data-rear-right src="assets/screens/home-neon.webp" alt=""></div>
             <div class="held-phone">
-              <div class="phone held-phone-shell" aria-hidden="true">
-                <span class="phone-island"></span>
-                <img class="held-screen" data-held-screen src="assets/screens/home-classic.webp" alt="Emergency 18 Classic home screen">
-              </div>
+              <img class="held-screen" data-held-screen src="assets/screens/home-classic.webp" alt="Emergency 18 Classic home screen">
               <img class="held-frame" src="assets/hero-phone-hand.png" alt="A realistic hand holding the Emergency 18 app">
             </div>
           </div>
@@ -85,44 +82,22 @@
           <p>Three moments. One calm rhythm from the first tee to the number that matters.</p>
         </div>
 
-        <div class="tour-stories">
-          <article class="tour-story" data-reveal>
-            <div class="tour-story-copy">
-              <div class="tour-story-index"><span>01</span><span>Start</span></div>
-              <h3>Choose the round and get moving.</h3>
-              <p>Solo, live, and scramble rounds all start from the same focused home. Recent form, friends, stats, and history stay available without competing with the main action.</p>
-              <div class="tour-story-facts"><span>Solo</span><span>Live</span><span>Scramble</span></div>
-            </div>
-            <figure class="tour-story-visual">
-              <div class="phone story-phone"><span class="phone-island" aria-hidden="true"></span><img src="assets/screens/home-classic.webp" alt="Emergency 18 home screen showing the Start a round action"></div>
-              <figcaption>One home screen · three round formats</figcaption>
-            </figure>
-          </article>
-
-          <article class="tour-story" data-reveal>
-            <div class="tour-story-copy">
-              <div class="tour-story-index"><span>02</span><span>Score</span></div>
-              <h3>Keep every player and every hole in sync.</h3>
-              <p>The live scorecard is designed for quick taps between shots. Enter scores, putts, fairways, greens, and optional side quests while the rest of the group stays on the same page.</p>
-              <div class="tour-story-facts"><span>Live sync</span><span>Fast entry</span><span>2 players shown</span></div>
-            </div>
-            <figure class="tour-story-visual">
-              <div class="phone story-phone"><span class="phone-island" aria-hidden="true"></span><img src="assets/screens/live-scorecard.webp" alt="Emergency 18 live scorecard showing Alex and Jordan on hole one"></div>
-              <figcaption>Live group scoring · Alex and Jordan on Hole 1</figcaption>
-            </figure>
-          </article>
-
-          <article class="tour-story" data-reveal>
-            <div class="tour-story-copy">
-              <div class="tour-story-index"><span>03</span><span>Dial in</span></div>
-              <h3>Place the target on the green and read the shot.</h3>
-              <p>GPS Range shows the actual hole, lets you move the target to the spot you intend to hit, and keeps the live yardage visible. Add your Golf Bag later for club suggestions based on your own carry numbers.</p>
-              <div class="tour-story-facts"><span>229 yd shown</span><span>Target on green</span><span>Golf Bag ready</span></div>
-            </div>
-            <figure class="tour-story-visual">
-              <div class="phone story-phone"><span class="phone-island" aria-hidden="true"></span><img src="assets/screens/gps-range.webp" alt="Emergency 18 GPS Range with the target positioned on the green and a 229 yard reading"></div>
-              <figcaption>GPS Range · 229 yards to the selected green target</figcaption>
-            </figure>
+        <div class="tour-console">
+          <div class="tour-tabs" role="tablist" aria-label="Explore Emergency 18">
+            <button type="button" role="tab" aria-selected="true" data-feature-button="0"><span>01</span><strong>Start</strong><i aria-hidden="true">↗</i></button>
+            <button type="button" role="tab" aria-selected="false" data-feature-button="1"><span>02</span><strong>Score</strong><i aria-hidden="true">↗</i></button>
+            <button type="button" role="tab" aria-selected="false" data-feature-button="2"><span>03</span><strong>Dial in</strong><i aria-hidden="true">↗</i></button>
+          </div>
+          <div class="tour-device-wrap" aria-live="polite">
+            <div class="tour-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="phone tour-phone"><span class="phone-island" aria-hidden="true"></span><img data-tour-screen src="assets/screens/home-classic.webp" alt="Emergency 18 home screen in the Classic style"></div>
+            <div class="tour-stat"><strong data-tour-stat>3</strong><span data-tour-stat-label>ways to play</span></div>
+          </div>
+          <article class="tour-copy">
+            <div><span data-tour-number>01</span><span data-tour-eyebrow>Your round starts here</span></div>
+            <h3 data-tour-title>Choose the round. Keep everything else out of the way.</h3>
+            <p data-tour-copy>Solo, live, and scramble play begin from one focused home. Friends, recent form, and round history are close when you want them—not competing for every tap.</p>
+            <span class="tour-status"><i></i> Feature active</span>
           </article>
         </div>
       </section>
