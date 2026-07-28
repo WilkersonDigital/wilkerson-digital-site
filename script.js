@@ -1,203 +1,202 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Wilkerson Digital — Emergency 18</title>
-  <meta name="description" content="Wilkerson Digital is the independent studio behind Emergency 18, a cleaner golf companion for scoring, GPS, friends, and stats.">
-  <meta property="og:title" content="Wilkerson Digital — Emergency 18">
-  <meta property="og:description" content="Golf is already hard. The app shouldn’t be.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://wilkersondigital.net">
-  <meta name="theme-color" content="#f2f0eb">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <a class="skip-link" href="#content">Skip to content</a>
+(() => {
+  const root = document.documentElement;
+  const menuButton = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.site-menu');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  <header class="site-header">
-    <a href="#top" class="brand-link"><span class="wordmark" aria-label="Wilkerson Digital"><span class="wordmark-mark" aria-hidden="true">W/D</span><span>Wilkerson Digital</span></span></a>
-    <div class="header-product" aria-hidden="true"><span>01</span><span>Emergency 18</span></div>
-    <div class="scroll-track" aria-hidden="true"><span></span></div>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"><span>Menu</span><span aria-hidden="true">+</span></button>
-    <nav class="site-menu" id="site-menu" aria-label="Primary">
-      <a href="#product">Product</a>
-      <a href="#features">Features</a>
-      <a href="#studio">Studio</a>
-      <a href="support.html">Support</a>
-      <a class="nav-cta" href="#waitlist">Join waitlist <span>↗</span></a>
-    </nav>
-  </header>
+  const setMenu = (open) => {
+    if (!menuButton || !menu) return;
+    menu.classList.toggle('is-open', open);
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.children[0].textContent = open ? 'Close' : 'Menu';
+    menuButton.children[1].textContent = open ? '×' : '+';
+  };
 
-  <main id="top">
-    <div id="content">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <div class="hero-overline"><span>Emergency 18 / iPhone</span><span><i></i> External beta · Build 15</span></div>
-          <h1 id="hero-title"><span>Golf is already hard.</span><em>The app shouldn’t be.</em></h1>
-          <div class="hero-bottom">
-            <p>A cleaner golf companion for scoring the round, playing with friends, finding your number, and understanding your game.</p>
-            <div class="hero-actions">
-              <a class="button button-dark" href="#waitlist">Join the waitlist <span aria-hidden="true">→</span></a>
-              <a class="text-link" href="#product">See the round <span aria-hidden="true">↓</span></a>
-            </div>
-          </div>
-        </div>
+  menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
 
-        <div class="hero-visual" aria-label="Emergency 18 shown in Classic, Cream, and Neon styles">
-          <div class="hero-coordinates" aria-hidden="true"><span>36.1540° N</span><span>95.9928° W</span></div>
-          <div class="hero-crosshair" aria-hidden="true"><span></span><span></span></div>
-          <div class="phone-fan">
-            <div class="phone fan-phone fan-left" aria-hidden="true"><span class="phone-island"></span><img data-rear-left src="assets/screens/home-cream.webp" alt=""></div>
-            <div class="phone fan-phone fan-right" aria-hidden="true"><span class="phone-island"></span><img data-rear-right src="assets/screens/home-neon.webp" alt=""></div>
-            <div class="held-phone" aria-label="A hand holding Emergency 18 in the Classic style">
-              <div class="phone held-device">
-                <span class="phone-island" aria-hidden="true"></span>
-                <img class="held-screen" data-held-screen src="assets/screens/home-classic.webp" alt="Emergency 18 Classic home screen">
-              </div>
-              <img class="held-hand" src="assets/hero-phone-hand.png" alt="">
-            </div>
-          </div>
-          <div class="hero-theme-switcher" aria-label="Choose the lead Emergency 18 style">
-            <span>Style</span>
-            <button type="button" aria-pressed="true" data-theme-button="classic"><i class="classic" aria-hidden="true"></i>Classic</button>
-            <button type="button" aria-pressed="false" data-theme-button="cream"><i class="cream" aria-hidden="true"></i>Cream</button>
-            <button type="button" aria-pressed="false" data-theme-button="neon"><i class="neon" aria-hidden="true"></i>Neon</button>
-          </div>
-        </div>
-      </section>
+  const updateProgress = () => {
+    const height = root.scrollHeight - window.innerHeight;
+    root.style.setProperty('--scroll-progress', String(height > 0 ? window.scrollY / height : 0));
+  };
+  updateProgress();
+  window.addEventListener('scroll', updateProgress, { passive: true });
 
-      <section class="round-rail" aria-label="Emergency 18 round flow">
-        <span class="rail-title">One round / One app</span><div><span>01</span> Start</div><i></i><div><span>02</span> Score</div><i></i><div><span>03</span> Find</div><i></i><div><span>04</span> Learn</div>
-      </section>
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.setAttribute('data-visible', 'true');
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8%', threshold: 0.12 });
+  document.querySelectorAll('[data-reveal]').forEach((item) => revealObserver.observe(item));
 
-      <section class="opening-statement" data-reveal>
-        <p class="section-index">The idea / 001</p>
-        <p>You should remember the shot—<em>not the screen</em> you used to record it.</p>
-      </section>
+  const heroVisual = document.querySelector('.hero-visual');
+  heroVisual?.addEventListener('pointermove', (event) => {
+    if (event.pointerType === 'touch') return;
+    const rect = heroVisual.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+    heroVisual.style.setProperty('--hero-x', `${(x * 7).toFixed(2)}px`);
+    heroVisual.style.setProperty('--hero-y', `${(y * 5).toFixed(2)}px`);
+  });
+  heroVisual?.addEventListener('pointerleave', () => {
+    heroVisual.style.setProperty('--hero-x', '0px');
+    heroVisual.style.setProperty('--hero-y', '0px');
+  });
 
-      <section class="product-tour" id="product" aria-labelledby="product-title">
-        <div class="product-heading" data-reveal>
-          <p class="section-index">Emergency 18 / In play</p>
-          <h2 id="product-title">See the round.<br><em>Not a feature list.</em></h2>
-          <p>Start the group, keep the scorecard moving, then aim at a real target. Each view below is taken from Emergency 18.</p>
-        </div>
+  const themes = [
+    { id: 'classic', label: 'Classic', src: 'assets/screens/home-classic.webp' },
+    { id: 'cream', label: 'Cream', src: 'assets/screens/home-cream.webp' },
+    { id: 'neon', label: 'Neon', src: 'assets/screens/home-neon.webp' },
+  ];
 
-        <div class="tour-console">
-          <div class="tour-tabs" role="tablist" aria-label="Explore Emergency 18">
-            <button type="button" role="tab" aria-selected="true" data-feature-button="0"><span>01</span><strong>Start</strong><small>Choose the round</small></button>
-            <button type="button" role="tab" aria-selected="false" data-feature-button="1"><span>02</span><strong>Score</strong><small>Keep the group synced</small></button>
-            <button type="button" role="tab" aria-selected="false" data-feature-button="2"><span>03</span><strong>GPS Range</strong><small>Aim at the green</small></button>
-          </div>
-          <div class="tour-stage" aria-live="polite">
-            <div class="tour-stage-meta" aria-hidden="true"><span data-tour-stage-number>View 01</span><span>Actual app screen</span></div>
-            <div class="tour-stage-grid" aria-hidden="true"></div>
-            <div class="phone tour-phone"><span class="phone-island" aria-hidden="true"></span><img data-tour-screen src="assets/screens/home-classic.webp" alt="Emergency 18 home screen in the Classic style"></div>
-          </div>
-          <article class="tour-copy">
-            <div><span data-tour-number>01</span><span data-tour-eyebrow>Your round starts here</span></div>
-            <h3 data-tour-title>Choose the round. Keep everything else out of the way.</h3>
-            <p data-tour-copy>Solo, live, and scramble play begin from one focused home. Friends, recent form, and round history are close when you want them—not competing for every tap.</p>
-            <div class="tour-proof"><strong data-tour-stat>Solo · Live · Scramble</strong><span data-tour-stat-label>Round formats</span></div>
-            <span class="tour-status"><i></i> Feature active</span>
-          </article>
-        </div>
-      </section>
+  const heldScreen = document.querySelector('[data-held-screen]');
+  const rearLeft = document.querySelector('[data-rear-left]');
+  const rearRight = document.querySelector('[data-rear-right]');
+  const themeButtons = [...document.querySelectorAll('[data-theme-button]')];
 
-      <section class="feature-showcase" id="features" aria-labelledby="features-title">
-        <div class="feature-heading">
-          <p class="section-index">Inside Emergency 18 / Feature list</p>
-          <h2 id="features-title">Everything golfers need.<br><em>Nothing in the way.</em></h2>
-          <p>A straightforward look at what Emergency 18 includes, so you can quickly tell whether it has what you need.</p>
-        </div>
+  const animateSwap = (element, distance = 12) => {
+    if (!element || reducedMotion) return;
+    element.animate(
+      [{ opacity: 0, transform: `translateY(${distance}px) scale(.99)` }, { opacity: 1, transform: 'translateY(0) scale(1)' }],
+      { duration: 430, easing: 'cubic-bezier(.2,.8,.2,1)' },
+    );
+  };
 
-        <div class="feature-list" role="list" aria-label="Emergency 18 features">
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">01</span>
-            <h3>Round formats</h3>
-            <p>Solo rounds, live multiplayer scorecards, and scramble teams.</p>
-            <span class="feature-included">Included</span>
-          </article>
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">02</span>
-            <h3>Score tracking</h3>
-            <p>Hole-by-hole scores, putts, fairways hit, greens in regulation, pars, and yardages.</p>
-            <span class="feature-included">Included</span>
-          </article>
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">03</span>
-            <h3>GPS Range</h3>
-            <p>Satellite hole view, tap or drag targeting, live distance, and club suggestions based on your bag.</p>
-            <span class="feature-included">Included</span>
-          </article>
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">04</span>
-            <h3>Golf Bag</h3>
-            <p>More than 106 club options with your own saved carry distances.</p>
-            <span class="feature-included">Included</span>
-          </article>
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">05</span>
-            <h3>Round history and stats</h3>
-            <p>Saved scorecards, handicap estimates, scoring trends, putting, FIR, GIR, achievements, and personal bests.</p>
-            <span class="feature-included">Included</span>
-          </article>
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">06</span>
-            <h3>Friends and live play</h3>
-            <p>Friend requests, round invites, synced scores, activity, and leaderboards.</p>
-            <span class="feature-included">Included</span>
-          </article>
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">07</span>
-            <h3>Nearby course finder</h3>
-            <p>Location-based course discovery for finding somewhere to play when plans change.</p>
-            <span class="feature-included">Included</span>
-          </article>
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">08</span>
-            <h3>Side Quest stats</h3>
-            <p>Optional tracking for beers, mulligans, and lost balls during every round.</p>
-            <span class="feature-included">Included</span>
-          </article>
-          <article class="feature-row" role="listitem">
-            <span class="feature-number">09</span>
-            <h3>Customization</h3>
-            <p>Fifteen colors across Classic, Cream, and Neon for 45 visual combinations.</p>
-            <span class="feature-included">45 combinations</span>
-          </article>
-        </div>
-      </section>
+  const setTheme = (id) => {
+    const theme = themes.find((item) => item.id === id) || themes[0];
+    const rear = themes.filter((item) => item.id !== theme.id);
+    heldScreen.src = theme.src;
+    heldScreen.alt = `Emergency 18 ${theme.label} home screen`;
+    rearLeft.src = rear[0].src;
+    rearRight.src = rear[1].src;
+    animateSwap(heldScreen);
+    animateSwap(rearLeft, 18);
+    animateSwap(rearRight, 18);
 
-      <section class="studio" id="studio" aria-labelledby="studio-title">
-        <div class="studio-monogram" aria-hidden="true">W/D</div>
-        <div class="studio-heading" data-reveal><p class="section-index">Wilkerson Digital / Oklahoma</p><h2 id="studio-title">Small studio.<br>No filler.</h2></div>
-        <div class="studio-copy"><p>Wilkerson Digital is an independent software studio making focused products with a point of view.</p><p>Emergency 18 is the first. The job right now is not to look like a company with twelve apps—it is to make this one excellent.</p></div>
-      </section>
+    themeButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.themeButton === theme.id)));
+  };
 
-      <section class="waitlist" id="waitlist" aria-labelledby="waitlist-title">
-        <div class="waitlist-topline">
-          <p class="section-index">Launch list / iPhone first</p>
-          <div class="waitlist-count" aria-live="polite"><strong data-waitlist-count>—</strong><span data-waitlist-count-label>launch list is open</span></div>
-        </div>
-        <div class="waitlist-main" data-reveal>
-          <div><h2 id="waitlist-title">Be there for<br>the first tee.</h2><p>Join the Emergency 18 launch list and we’ll let you know when the app is ready for everyone.</p></div>
-          <form class="waitlist-form" data-waitlist-form>
-            <label for="waitlist-email">Your email</label>
-            <div class="waitlist-field"><input id="waitlist-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required><button type="submit">Join the waitlist <span aria-hidden="true">↗</span></button></div>
-            <input class="waitlist-honeypot" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <p class="waitlist-message idle" data-waitlist-message aria-live="polite">Launch updates only. No spam, and you can leave anytime.</p>
-          </form>
-        </div>
-      </section>
-    </div>
-  </main>
+  themeButtons.forEach((button) => button.addEventListener('click', () => setTheme(button.dataset.themeButton)));
 
-  <footer class="site-footer">
-    <div class="footer-main"><span class="wordmark" aria-label="Wilkerson Digital"><span class="wordmark-mark" aria-hidden="true">W/D</span><span>Wilkerson Digital</span></span><a href="mailto:business@wilkersondigital.net">business@wilkersondigital.net <span>↗</span></a><nav aria-label="Legal"><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav><a href="#top">Back to top ↑</a></div>
-    <div class="footer-bottom"><span>© 2026 Wilkerson Digital LLC</span><span>Independent software · Oklahoma</span></div>
-  </footer>
-</body>
-</html>
+  const features = [
+    {
+      number: '01', eyebrow: 'Your round starts here', title: 'Choose the round. Keep everything else out of the way.',
+      copy: 'Solo, live, and scramble play begin from one focused home. Friends, recent form, and round history are close when you want them—not competing for every tap.',
+      stat: 'Solo · Live · Scramble', statLabel: 'Round formats', src: 'assets/screens/home-classic.webp', alt: 'Emergency 18 home screen in the Classic style',
+    },
+    {
+      number: '02', eyebrow: 'Live scoring', title: 'The whole group stays on the same hole and the same page.',
+      copy: 'Scores, putts, fairways, greens, and side quests update without slowing down the round. The scorecard is built for quick taps between shots.',
+      stat: 'Live', statLabel: 'Shared scorecard', src: 'assets/screens/live-scorecard.webp', alt: 'Emergency 18 live scoring screen with sample players Alex and Jordan',
+    },
+    {
+      number: '03', eyebrow: 'GPS Range', title: 'Move the target. Trust the number. Pull a club.',
+      copy: 'Tap a point on the hole, drag the pin to refine it, and get a carry recommendation from the clubs saved in your own Golf Bag.',
+      stat: '229 yd', statLabel: 'To the selected target', src: 'assets/screens/gps-range-refined.webp', alt: 'Emergency 18 GPS Range measuring one clear path from the golfer to a target on the green',
+    },
+  ];
+
+  const featureButtons = [...document.querySelectorAll('[data-feature-button]')];
+  const tourScreen = document.querySelector('[data-tour-screen]');
+  const tourCopyPanel = document.querySelector('.tour-copy');
+  const fields = {
+    number: document.querySelector('[data-tour-number]'),
+    eyebrow: document.querySelector('[data-tour-eyebrow]'),
+    title: document.querySelector('[data-tour-title]'),
+    copy: document.querySelector('[data-tour-copy]'),
+    stat: document.querySelector('[data-tour-stat]'),
+    statLabel: document.querySelector('[data-tour-stat-label]'),
+    stageNumber: document.querySelector('[data-tour-stage-number]'),
+  };
+
+  const setFeature = (index) => {
+    const feature = features[index] || features[0];
+    featureButtons.forEach((button, buttonIndex) => button.setAttribute('aria-selected', String(buttonIndex === index)));
+    tourScreen.src = feature.src;
+    tourScreen.alt = feature.alt;
+    fields.number.textContent = feature.number;
+    fields.eyebrow.textContent = feature.eyebrow;
+    fields.title.textContent = feature.title;
+    fields.copy.textContent = feature.copy;
+    fields.stat.textContent = feature.stat;
+    fields.statLabel.textContent = feature.statLabel;
+    fields.stageNumber.textContent = `View ${feature.number}`;
+    animateSwap(tourScreen, 22);
+    animateSwap(tourCopyPanel, 15);
+  };
+
+  featureButtons.forEach((button, index) => button.addEventListener('click', () => setFeature(index)));
+
+  const waitlistRpcBase = 'https://xahdxubruhwqacumnnuy.supabase.co/rest/v1/rpc';
+  const waitlistPublicKey = 'sb_publishable_MJP8KWnubjh4EKQgCqlrzw_XcPvinkq';
+  const waitlistForm = document.querySelector('[data-waitlist-form]');
+  const waitlistCount = document.querySelector('[data-waitlist-count]');
+  const waitlistCountLabel = document.querySelector('[data-waitlist-count-label]');
+  const waitlistMessage = document.querySelector('[data-waitlist-message]');
+
+  const waitlistHeaders = {
+    apikey: waitlistPublicKey,
+    Authorization: `Bearer ${waitlistPublicKey}`,
+    'Content-Type': 'application/json',
+  };
+
+  const setWaitlistCount = (value) => {
+    const count = Number(value);
+    if (!Number.isFinite(count) || !waitlistCount || !waitlistCountLabel) return;
+    waitlistCount.textContent = String(count);
+    waitlistCountLabel.textContent = count === 1 ? 'golfer is waiting' : 'golfers are waiting';
+  };
+
+  const setWaitlistMessage = (state, message) => {
+    if (!waitlistMessage) return;
+    waitlistMessage.className = `waitlist-message ${state}`;
+    waitlistMessage.textContent = message;
+  };
+
+  fetch(`${waitlistRpcBase}/waitlist_public_count`, {
+    method: 'POST',
+    headers: waitlistHeaders,
+    body: '{}',
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error('Count unavailable');
+      return response.json();
+    })
+    .then((value) => setWaitlistCount(Array.isArray(value) ? value[0] : value))
+    .catch(() => undefined);
+
+  waitlistForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    if (String(data.get('company') || '').trim()) return;
+    const email = String(data.get('email') || '').trim();
+    if (!email) return;
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.firstChild.textContent = 'Joining… ';
+
+    try {
+      const response = await fetch(`${waitlistRpcBase}/join_launch_waitlist`, {
+        method: 'POST',
+        headers: waitlistHeaders,
+        body: JSON.stringify({ p_email: email }),
+      });
+      if (!response.ok) throw new Error('Join unavailable');
+      const payload = await response.json();
+      const result = Array.isArray(payload) ? payload[0] : payload;
+      setWaitlistCount(result?.total_count);
+      setWaitlistMessage(result?.joined ? 'joined' : 'duplicate', result?.joined
+        ? 'You’re in. We’ll email you when launch gets close.'
+        : 'You’re already on the list—we’ve got you.');
+      form.reset();
+    } catch {
+      setWaitlistMessage('error', 'The list is temporarily unavailable. Email business@wilkersondigital.net.');
+    } finally {
+      button.disabled = false;
+      button.firstChild.textContent = 'Join the waitlist ';
+    }
+  });
+})();
