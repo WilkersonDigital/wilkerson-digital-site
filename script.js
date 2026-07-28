@@ -94,7 +94,7 @@
     {
       number: '03', eyebrow: 'GPS Range', title: 'Move the target. Trust the number. Pull a club.',
       copy: 'Tap a point on the hole, drag the pin to refine it, and get a carry recommendation from the clubs saved in your own Golf Bag.',
-      stat: '229 yd', statLabel: 'To the selected target', src: 'assets/screens/gps-range-refined.webp', alt: 'Emergency 18 GPS Range measuring one clear path from the golfer to a target on the green',
+      stat: '229 yd', statLabel: 'To the selected target', src: 'assets/screens/gps-range-original-ui.webp', alt: 'Emergency 18 GPS Range measuring one clear path from the golfer to a target centered on the green',
     },
   ];
 
