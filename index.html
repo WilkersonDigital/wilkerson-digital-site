@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; connect-src 'self' https://xahdxubruhwqacumnnuy.supabase.co; font-src 'self'; form-action 'self'; frame-src 'none'; img-src 'self' data:; object-src 'none'; script-src 'self'; style-src 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="no-referrer">
   <title>Wilkerson Digital — Emergency 18</title>
   <meta name="description" content="Wilkerson Digital is the independent studio behind Emergency 18, a cleaner golf companion for scoring, GPS, friends, and stats.">
   <meta property="og:title" content="Wilkerson Digital — Emergency 18">
@@ -180,7 +182,7 @@
           <div><h2 id="waitlist-title">Be there for<br>the first tee.</h2><p>Join the Emergency 18 launch list and we’ll let you know when the app is ready for everyone.</p></div>
           <form class="waitlist-form" data-waitlist-form>
             <label for="waitlist-email">Your email</label>
-            <div class="waitlist-field"><input id="waitlist-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required><button type="submit">Join the waitlist <span aria-hidden="true">↗</span></button></div>
+            <div class="waitlist-field"><input id="waitlist-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="254" placeholder="you@example.com" required><button type="submit">Join the waitlist <span aria-hidden="true">↗</span></button></div>
             <input class="waitlist-honeypot" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
             <p class="waitlist-message idle" data-waitlist-message aria-live="polite">Launch updates only. No spam, and you can leave anytime.</p>
           </form>

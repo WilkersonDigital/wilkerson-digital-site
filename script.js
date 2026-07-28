@@ -139,7 +139,35 @@
   const waitlistHeaders = {
     apikey: waitlistPublicKey,
     Authorization: `Bearer ${waitlistPublicKey}`,
+    Accept: 'application/json',
     'Content-Type': 'application/json',
+  };
+  const requestTimeoutMs = 8000;
+  let lastWaitlistAttempt = 0;
+
+  const postWaitlistRpc = async (name, body) => {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), requestTimeoutMs);
+    try {
+      const response = await fetch(`${waitlistRpcBase}/${name}`, {
+        method: 'POST',
+        headers: waitlistHeaders,
+        body: JSON.stringify(body),
+        cache: 'no-store',
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer',
+        signal: controller.signal,
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok) {
+        const error = new Error('Waitlist request unavailable');
+        error.rateLimited = payload?.message === 'rate_limited';
+        throw error;
+      }
+      return payload;
+    } finally {
+      window.clearTimeout(timeout);
+    }
   };
 
   const setWaitlistCount = (value) => {
@@ -155,15 +183,7 @@
     waitlistMessage.textContent = message;
   };
 
-  fetch(`${waitlistRpcBase}/waitlist_public_count`, {
-    method: 'POST',
-    headers: waitlistHeaders,
-    body: '{}',
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error('Count unavailable');
-      return response.json();
-    })
+  postWaitlistRpc('waitlist_public_count', {})
     .then((value) => setWaitlistCount(Array.isArray(value) ? value[0] : value))
     .catch(() => undefined);
 
@@ -173,27 +193,34 @@
     const data = new FormData(form);
     if (String(data.get('company') || '').trim()) return;
     const email = String(data.get('email') || '').trim();
-    if (!email) return;
+    if (!email || email.length > 254 || !form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    const now = Date.now();
+    if (now - lastWaitlistAttempt < 10000) {
+      setWaitlistMessage('error', 'Please wait a moment before trying again.');
+      return;
+    }
+    lastWaitlistAttempt = now;
     const button = form.querySelector('button[type="submit"]');
     button.disabled = true;
     button.firstChild.textContent = 'Joining… ';
 
     try {
-      const response = await fetch(`${waitlistRpcBase}/join_launch_waitlist`, {
-        method: 'POST',
-        headers: waitlistHeaders,
-        body: JSON.stringify({ p_email: email }),
-      });
-      if (!response.ok) throw new Error('Join unavailable');
-      const payload = await response.json();
+      const payload = await postWaitlistRpc('join_launch_waitlist', { p_email: email });
       const result = Array.isArray(payload) ? payload[0] : payload;
+      if (!result?.accepted) {
+        setWaitlistMessage('error', 'Enter a valid email address and try again.');
+        return;
+      }
       setWaitlistCount(result?.total_count);
-      setWaitlistMessage(result?.joined ? 'joined' : 'duplicate', result?.joined
-        ? 'You’re in. We’ll email you when launch gets close.'
-        : 'You’re already on the list—we’ve got you.');
+      setWaitlistMessage('joined', 'Thanks—if that address is new, it’s now on the list.');
       form.reset();
-    } catch {
-      setWaitlistMessage('error', 'The list is temporarily unavailable. Email business@wilkersondigital.net.');
+    } catch (error) {
+      setWaitlistMessage('error', error?.rateLimited
+        ? 'Too many attempts. Please wait 15 minutes and try again.'
+        : 'The list is temporarily unavailable. Email business@wilkersondigital.net.');
     } finally {
       button.disabled = false;
       button.firstChild.textContent = 'Join the waitlist ';
